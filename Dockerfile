@@ -21,7 +21,7 @@ COPY pyproject.toml poetry.lock /app/
 # Install dependencies - Use a simple requirements.txt step if poetry is too complex for initial setup
 # Using 'poetry export' to generate a requirements.txt is often easier for Docker.
 # Since the doc uses poetry add, we will stick to the poetry install command.
-RUN poetry install --no-dev
+RUN poetry install
 
 # --- Stage 2: Final Image ---
 # Use a smaller base image for the final runtime
