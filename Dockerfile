@@ -7,6 +7,7 @@ ENV PYTHONUNBUFFERED 1
 ENV POETRY_HOME="/opt/poetry"
 ENV POETRY_VIRTUALENVS_IN_PROJECT=true
 ENV PATH="$POETRY_HOME/bin:$PATH"
+ENV APP_SECRET_KEY=28349023SDFSKDFJDSFSDFSDF
 
 # Install Poetry
 RUN curl -sSL https://install.python-poetry.org | python -
