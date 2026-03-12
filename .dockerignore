@@ -1,0 +1,28 @@
+# Virtual env (we use the one from the builder stage)
+.venv
+venv
+env
+
+# Git and CI
+.git
+.github
+
+# Python
+__pycache__
+*.py[cod]
+*.pyo
+.pytest_cache
+.mypy_cache
+.coverage
+htmlcov
+
+# Local / IDE
+.idea
+.vscode
+*.swp
+.env
+.env.*
+
+# Docs / misc
+*.md
+!README.md

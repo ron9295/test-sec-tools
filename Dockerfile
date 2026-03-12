@@ -19,14 +19,12 @@ WORKDIR /app
 # Copy pyproject.toml and poetry.lock
 COPY pyproject.toml poetry.lock /app/
 
-# Install dependencies - Use a simple requirements.txt step if poetry is too complex for initial setup
-# Using 'poetry export' to generate a requirements.txt is often easier for Docker.
-# Since the doc uses poetry add, we will stick to the poetry install command.
-RUN poetry install
+# Install dependencies only (no project package - app code is copied in final stage)
+RUN poetry install --no-root
 
 # --- Stage 2: Final Image ---
-# Use a smaller base image for the final runtime
-FROM python:3.11-slim
+# Use a smaller base image for the final runtime (match builder Python version)
+FROM python:3.12-slim
 
 # Set environment variables
 ENV PYTHONUNBUFFERED 1
@@ -48,7 +46,7 @@ ENV DJANGO_SETTINGS_MODULE=myproject.settings
 # A full deployment would separate these.
 
 # Expose the application port
-EXPOSE $PORT
+EXPOSE 8000
 
 # Command to run the application using Gunicorn (assuming you added it with poetry)
 # Use a production-ready command.
