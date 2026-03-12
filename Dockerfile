@@ -1,6 +1,6 @@
 # --- Stage 1: Builder ---
 # Use a full Python image for building dependencies
-FROM python:3.11 AS builder
+FROM python:3.12 AS builder
 
 # Set environment variables
 ENV PYTHONUNBUFFERED 1

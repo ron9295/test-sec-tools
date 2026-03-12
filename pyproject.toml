@@ -6,7 +6,7 @@ authors = ["ron9295 <ron9295@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 django = "^6.0.3"
 djangorestframework = "^3.16.1"
 gunicorn = "^25.1.0"
