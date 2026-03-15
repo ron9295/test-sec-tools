@@ -15,6 +15,7 @@ jobs:
 
     permissions:
       contents: read
+      security-events: write # Required if you want to see results in the Security tab
 
     steps:
       - name: Checkout repository
@@ -28,9 +29,22 @@ jobs:
         with:
           context: .
           push: false
+          load: true # CRITICAL: This pulls the image from Buildx into the local Docker daemon
           tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Build complete
-        run: echo "Docker image built successfully - ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+      # --- TRIVY SCAN START ---
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}'
+          format: 'table'
+          exit-code: '1' # This will fail the pipeline if vulnerabilities are found
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+      # --- TRIVY SCAN END ---
+
+      - name: Build and Scan complete
+        run: echo "Docker image built and scanned successfully - ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
