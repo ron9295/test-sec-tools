@@ -33,9 +33,16 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      # --- TRIVY SCAN START ---
-      # --- TRIVY SCA SCAN START ---
+          
+      - name: KICS scan
+        uses: checkmarx/kics-github-action@v2.1.0
+        with:
+          path: '.'
+          platforms: 'Dockerfile,Kubernetes,Terraform'
+          output_path: 'kics-results'
+          output_formats: 'json,sarif'
+          exclude_paths: "node_modules/"
+          
       - name: Run Trivy SCA (Vulnerabilities, Secrets, Config)
         uses: aquasecurity/trivy-action@master
         with:
